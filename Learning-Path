@@ -1,0 +1,861 @@
+# Customer Experience Platform Learning & Delivery Roadmap
+
+## Goal
+
+Build a SaaS Customer Experience Platform that:
+
+- Supports multiple organisations (multi-tenancy)
+- Provides a single customer portal experience
+- Integrates with Dynamics and other business systems
+- Uses adapters to translate external data into a common model
+- Stores customer-facing Conversations and Timelines
+- Supports event-driven integrations
+- Scales as a cloud-native product
+
+---
+
+# Progress Dashboard
+
+## Foundation
+
+- [ ] Understand SaaS Architecture
+- [ ] Understand Multi-Tenancy
+- [ ] Understand Domain Driven Design (DDD)
+- [ ] Understand Event Driven Architecture
+- [ ] Understand Messaging & Queues
+- [ ] Understand Integration Patterns
+- [ ] Understand Eventual Consistency
+- [ ] Understand Azure Service Bus
+- [ ] Understand Container-Based Hosting
+- [ ] Build Practice Project
+
+---
+
+# Phase 1: SaaS Architecture
+
+## Objective
+
+Understand how modern SaaS products are designed and operated.
+
+### Topics
+
+- [ ] What is SaaS?
+- [ ] Multi-Tenant vs Single-Tenant
+- [ ] Tenant Isolation
+- [ ] Shared Infrastructure
+- [ ] Row-Level Security
+- [ ] Organisation-Based Architecture
+- [ ] Custom Domains
+- [ ] Feature Flags
+- [ ] Tenant Configuration
+
+---
+
+## Resources
+
+### Reading
+
+- Azure Multitenant Architecture Guidance
+- Azure SaaS Design Patterns
+- Azure Well Architected Framework
+
+### YouTube
+
+- [ ] Nick Chapsas - SaaS Architecture
+- [ ] Milan Jovanović - Multi Tenant Applications
+- [ ] System Design Interview - Multi Tenant SaaS
+
+---
+
+## Deliverable
+
+Document:
+
+```text
+How will my platform support:
+- Multiple organisations
+- Multiple customer users
+- Multiple source systems
+```
+
+---
+
+# Phase 2: Domain Driven Design (DDD)
+
+## Objective
+
+Model the business correctly before building APIs.
+
+---
+
+## Concepts
+
+### Entities
+
+Objects with identity.
+
+Examples:
+
+- Conversation
+- Customer
+- Portal User
+- Tenant
+
+---
+
+### Value Objects
+
+Objects without identity.
+
+Examples:
+
+- Address
+- Money
+- Contact Details
+- Time Period
+
+---
+
+### Aggregates
+
+Ownership boundaries.
+
+Examples:
+
+```text
+Conversation
+ ├── Timeline Events
+ ├── Messages
+ ├── Attachments
+ └── Actions
+```
+
+---
+
+### Bounded Contexts
+
+Separate domains.
+
+```text
+Identity
+Conversations
+Appointments
+Billing
+Notifications
+Integrations
+Administration
+```
+
+---
+
+## Resources
+
+### Books
+
+- [ ] Implementing Domain Driven Design (Vaughn Vernon)
+- [ ] Domain Driven Design Distilled
+
+### YouTube
+
+- [ ] DDD Fundamentals
+- [ ] Milan Jovanović DDD Series
+- [ ] Nick Chapsas DDD Explained
+
+---
+
+## Deliverable
+
+Create domain model diagrams for:
+
+- [ ] Tenant
+- [ ] User
+- [ ] Customer
+- [ ] Conversation
+- [ ] Timeline Event
+- [ ] Adapter
+
+---
+
+# Phase 3: Event Driven Architecture
+
+## Objective
+
+Learn how systems communicate without directly calling each other.
+
+---
+
+## Traditional Request Response
+
+```text
+User
+ ↓
+API
+ ↓
+Database
+```
+
+---
+
+## Event Driven
+
+```text
+Repair Created
+     ↓
+Publish Event
+     ↓
+Consumers React
+```
+
+---
+
+## Learn
+
+- [ ] Domain Events
+- [ ] Integration Events
+- [ ] Event Publishing
+- [ ] Event Consumption
+- [ ] Event Versioning
+- [ ] Event Correlation IDs
+
+---
+
+## Example
+
+```text
+Dynamics Repair Created
+
+Generates Event
+
+RepairCreated
+```
+
+Consumers:
+
+```text
+Conversation Service
+Notification Service
+Audit Service
+Reporting Service
+```
+
+---
+
+## Resources
+
+### Reading
+
+- Microsoft Event Driven Architecture Guide
+- CloudEvents Specification
+
+### Videos
+
+- [ ] Event Driven Architecture Explained
+- [ ] Martin Fowler Event Driven Systems
+- [ ] CodeOpinion Event Driven Design
+
+---
+
+## Deliverable
+
+Design:
+
+```text
+Repair Created Event
+Appointment Created Event
+Complaint Created Event
+```
+
+---
+
+# Phase 4: Messaging and Queues
+
+## Objective
+
+Understand reliable asynchronous processing.
+
+---
+
+## Core Concepts
+
+### Queue
+
+```text
+Producer
+ ↓
+Queue
+ ↓
+Consumer
+```
+
+---
+
+### Retry
+
+Failed messages retry automatically.
+
+- [ ] Understand Retry Policies
+
+---
+
+### Dead Letter Queue
+
+Failed messages moved for investigation.
+
+- [ ] Understand DLQs
+
+---
+
+### Idempotency
+
+Same message processed multiple times safely.
+
+Example:
+
+```text
+Repair Updated
+```
+
+received twice.
+
+Result should remain:
+
+```text
+Repair Status = Complete
+```
+
+not duplicate data.
+
+- [ ] Understand Idempotency
+
+---
+
+### Eventual Consistency
+
+Data may not update instantly everywhere.
+
+- [ ] Understand Eventual Consistency
+
+---
+
+## Resources
+
+### Azure
+
+- [ ] Azure Service Bus Fundamentals
+- [ ] Azure Service Bus Topics
+- [ ] Azure Service Bus Subscriptions
+- [ ] Azure Service Bus Dead Letter Queues
+
+---
+
+## Deliverable
+
+Build:
+
+```text
+API
+ ↓
+Queue
+ ↓
+Worker
+ ↓
+Database
+```
+
+and trace a complete workflow.
+
+---
+
+# Phase 5: Integration Patterns
+
+## Objective
+
+Learn enterprise integration techniques.
+
+---
+
+## Learn
+
+### Message Translator
+
+```text
+Dynamics Case
+      ↓
+Translator
+      ↓
+Portal Conversation
+```
+
+---
+
+### Message Router
+
+```text
+Event
+ ↓
+Correct Consumer
+```
+
+---
+
+### Content Enricher
+
+```text
+Repair
+ ↓
+Lookup Appointment
+ ↓
+Enhanced Event
+```
+
+---
+
+### Event Channel
+
+```text
+Queue
+Topic
+Subscription
+```
+
+---
+
+## Resources
+
+### Essential
+
+- [ ] Enterprise Integration Patterns
+
+Learn:
+
+- [ ] Message Translator
+- [ ] Message Router
+- [ ] Event Channel
+- [ ] Content Enricher
+- [ ] Aggregator Pattern
+- [ ] Publisher Subscriber Pattern
+
+---
+
+## Deliverable
+
+Design Adapter Architecture.
+
+```text
+Adapter Interface
+       │
+ ┌─────┼────────┐
+ │     │        │
+Dynamics Repairs Finance
+```
+
+---
+
+# Phase 6: Azure Platform Knowledge
+
+## Objective
+
+Understand cloud-native infrastructure.
+
+---
+
+## Azure Container Apps
+
+Learn:
+
+- [ ] Container Apps Basics
+- [ ] Scaling
+- [ ] Revisions
+- [ ] Networking
+- [ ] Managed Identity
+
+---
+
+## Azure Service Bus
+
+Learn:
+
+- [ ] Queues
+- [ ] Topics
+- [ ] Subscriptions
+- [ ] Dead Letter Queues
+- [ ] Message Sessions
+
+---
+
+## Azure Storage
+
+Learn:
+
+- [ ] Blob Storage
+- [ ] SAS URLs
+- [ ] File Upload Security
+
+---
+
+## Azure Key Vault
+
+Learn:
+
+- [ ] Secret Management
+- [ ] Managed Identity Access
+- [ ] Credential Rotation
+
+---
+
+## Application Insights
+
+Learn:
+
+- [ ] Correlation IDs
+- [ ] Distributed Tracing
+- [ ] Monitoring
+- [ ] Telemetry
+
+---
+
+# Phase 7: Customer Experience Platform Design
+
+## Core Domains
+
+### Identity
+
+```text
+Portal User
+Authentication
+Customer Matching
+```
+
+---
+
+### Tenant Management
+
+```text
+Organisation
+Branding
+Settings
+Feature Flags
+```
+
+---
+
+### Conversations
+
+```text
+Repair
+Complaint
+Appointment
+Billing
+```
+
+Presented in a common format.
+
+---
+
+### Timeline
+
+```text
+Created
+Updated
+Appointment Scheduled
+Message Added
+Closed
+```
+
+All represented similarly regardless of source system.
+
+---
+
+### Integrations
+
+```text
+Dynamics
+Housing Systems
+Finance Systems
+CRM
+```
+
+Through adapters.
+
+---
+
+# Canonical Data Model
+
+## Conversation
+
+```typescript
+Conversation
+├── Status
+├── Type
+├── Participants
+├── Timeline
+├── Attachments
+└── Actions
+```
+
+---
+
+## Timeline Event
+
+```typescript
+Timeline Event
+├── Event Type
+├── Date
+├── Actor
+├── Data
+└── Source System
+```
+
+---
+
+# Practice Project
+
+## Goal
+
+Build a Mini Customer Experience Platform.
+
+This should be completed before starting the full platform.
+
+---
+
+# Technology Stack
+
+## Frontend
+
+- Next.js
+- TanStack Query
+- shadcn/ui
+
+---
+
+## Backend
+
+- NestJS
+
+---
+
+## Database
+
+- PostgreSQL
+- Drizzle ORM
+
+---
+
+## Messaging
+
+- Azure Service Bus
+
+---
+
+## Authentication
+
+- Better Auth
+
+---
+
+# Milestone 1
+
+## Authentication
+
+- [ ] Register User
+- [ ] Login
+- [ ] Logout
+- [ ] Password Reset
+- [ ] Multi-Tenant Support
+
+---
+
+# Milestone 2
+
+## Customer Identity
+
+- [ ] Customer Profile
+- [ ] Customer Linking
+- [ ] Verification Process
+
+---
+
+# Milestone 3
+
+## Conversations
+
+Create:
+
+```text
+Repairs
+Complaints
+Appointments
+```
+
+using one shared model.
+
+Features:
+
+- [ ] List Conversations
+- [ ] View Conversation
+- [ ] Conversation Status
+- [ ] Filters
+
+---
+
+# Milestone 4
+
+## Timeline
+
+Features:
+
+- [ ] Event Stream
+- [ ] Event Types
+- [ ] Actor Display
+- [ ] Sorting
+- [ ] Audit Information
+
+---
+
+# Milestone 5
+
+## Azure Service Bus
+
+Build workflow:
+
+```text
+Create Repair
+     ↓
+Publish Event
+     ↓
+Queue
+     ↓
+Worker
+     ↓
+Create Conversation
+```
+
+Tasks:
+
+- [ ] Create Queue
+- [ ] Create Producer
+- [ ] Create Consumer
+- [ ] Process Events
+- [ ] Handle Retries
+
+---
+
+# Milestone 6
+
+## Simulated Dynamics Adapter
+
+Adapter receives:
+
+```json
+{
+  "caseId": "123",
+  "title": "Kitchen Repair",
+  "status": "Open"
+}
+```
+
+Transforms into:
+
+```json
+{
+  "conversationType": "repair",
+  "status": "open"
+}
+```
+
+Tasks:
+
+- [ ] Adapter Interface
+- [ ] Adapter Registration
+- [ ] Translation Logic
+- [ ] Error Handling
+
+---
+
+# Milestone 7
+
+## Notifications
+
+Events:
+
+```text
+Repair Created
+Repair Updated
+Appointment Scheduled
+```
+
+Trigger:
+
+- [ ] Email Notification
+- [ ] In-App Notification
+
+---
+
+# Milestone 8
+
+## Administration Portal
+
+Features:
+
+- [ ] Tenant Settings
+- [ ] Branding
+- [ ] Integration Status
+- [ ] Adapter Configuration
+- [ ] User Management
+
+---
+
+# Milestone 9
+
+## Operations Dashboard
+
+Build:
+
+```text
+Adapter Health
+Queue Depth
+Failed Messages
+Dead Letters
+Sync Status
+Event Throughput
+```
+
+---
+
+# MVP Success Criteria
+
+A customer can:
+
+- [ ] Register
+- [ ] Sign In
+- [ ] View Repairs
+- [ ] View Timeline
+- [ ] Receive Notifications
+
+An administrator can:
+
+- [ ] Configure Tenant
+- [ ] Configure Adapter
+- [ ] View Integration Health
+
+The platform can:
+
+- [ ] Process Events
+- [ ] Retry Failures
+- [ ] Prevent Duplicate Processing
+- [ ] Maintain Audit History
+
+---
+
+# Future Enhancements
+
+- [ ] AI Summaries
+- [ ] AI Agent Assistance
+- [ ] Knowledge Base Integration
+- [ ] Online Payments
+- [ ] Appointment Booking
+- [ ] Mobile App
+- [ ] Adapter Marketplace
+- [ ] Custom Workflows
+- [ ] Public APIs
+- [ ] GraphQL Gateway
